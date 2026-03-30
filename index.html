@@ -71,7 +71,7 @@ canvas {
   gap: 12px;
   padding: 24px;
   pointer-events: all;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(72,210,141,0.7) 0%, transparent 100%);
 }
 
 .mode-btn {
@@ -165,7 +165,7 @@ canvas {
   pointer-events: none;
 }
 #note-name {
-  font-family: 'Cinzel', serif;
+  font-family: 'Didot', serif;
   font-size: 48px;
   font-weight: 700;
   color: rgba(255,255,255,0.08);
@@ -192,7 +192,7 @@ canvas {
   transition: opacity 0.8s;
 }
 #hint p {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Century Gothic', sans-serif;
   font-weight: 100;
   font-size: 13px;
   letter-spacing: 6px;
@@ -209,7 +209,7 @@ canvas {
 <div id="hud">
   <div id="title-block">
     <h1>Voice Pattern Generator</h1>
-    <div id="mode-name">LISSAJOUS</div>
+    <div id="mode-name">Scribbles</div>
   </div>
 
   <div id="freq-sidebar">
@@ -277,7 +277,7 @@ canvas {
 
   // ── Visual state ──
   let mode = 0;
-  const MODE_NAMES = ['Scribbles', 'MANDALA', 'CONSTELLATION', 'INTERFERENCE', 'ALL MODES'];
+  const MODE_NAMES = ['Scribbles', 'Petals', 'Hoerbmann Sphere', 'Canoe', 'Chaos'];
   let t = 0;
   let particles = [];
   let lissHistory = [];
@@ -437,7 +437,7 @@ canvas {
       ctx.beginPath();
       ctx.moveTo(prev.x, prev.y);
       ctx.lineTo(pt.x, pt.y);
-      ctx.strokeStyle = hsl(pt.hue + age * 80, 60, 65, age * 0.7 * alpha);
+      ctx.strokeStyle = hsl(pt.hue + age * 88, 60, 65, age * 0.7 * alpha);
       ctx.lineWidth = 1.8 + pt.rms * 4;
       ctx.shadowBlur = 5 + pt.rms * 20;
       ctx.shadowColor = hsl(pt.hue, 100, 70);
@@ -447,7 +447,7 @@ canvas {
     // Live dot
     ctx.beginPath();
     ctx.arc(px, py, 3 + sRMS * 12, 0, Math.PI * 2);
-    ctx.fillStyle = hsl(hueBase, 100, 90, 0.9);
+    ctx.fillStyle = hsl(hueBase, 88, 90, 0.9);
     ctx.shadowBlur = 20 + sRMS * 40;
     ctx.shadowColor = hsl(hueBase, 100, 80);
     ctx.fill();
@@ -497,9 +497,9 @@ canvas {
         );
 
         const grad = ctx.createRadialGradient(0, 0, innerR * 0.23, ex, ey, petalLen * 0.13);
-        grad.addColorStop(0, hsl(ringHue, 190, 80, 0.05));
-        grad.addColorStop(0.5, hsl(ringHue + 50, 85, 70, 0.3 + bandVal * 0.4));
-        grad.addColorStop(1, hsl(ringHue + 80, 100, 45, 0.0));
+        grad.addColorStop(0, hsl(ringHue, 100, 80, 0.05));
+        grad.addColorStop(0.5, hsl(ringHue + 150, 85, 70, 0.3 + bandVal * 0.4));
+        grad.addColorStop(1, hsl(ringHue + 40, 100, 45, 0.0));
         ctx.fillStyle = grad;
         ctx.shadowBlur = 10 + bandVal * 30;
         ctx.shadowColor = hsl(ringHue, 100, 70);
@@ -510,9 +510,9 @@ canvas {
     // Center orb
     const orbR = innerR * (0.5 + sRMS * 1.5);
     const orbGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, orbR);
-    orbGrad.addColorStop(0, hsl(sHue, 100, 95, 0.9));
+    orbGrad.addColorStop(0, hsl(sHue + 25, 100, 95, 0.9));
     orbGrad.addColorStop(0.4, hsl(sHue + 30, 90, 60, 0.6));
-    orbGrad.addColorStop(1, hsl(sHue + 60, 80, 40, 0));
+    orbGrad.addColorStop(1, hsl(sHue + 10, 80, 40, 0));
     ctx.beginPath();
     ctx.arc(0, 0, orbR, 0, Math.PI * 2);
     ctx.fillStyle = orbGrad;
@@ -581,14 +581,14 @@ canvas {
     // Nucleus
     const nucR = 8 + sRMS * 35 + sBass * 12;
     const ng = ctx.createRadialGradient(x0, y0, 0, x0, y0, nucR);
-    ng.addColorStop(0, hsl(sHue, 270, 98, 0.95));
+    ng.addColorStop(0, hsl(sHue + 85, 70, 98, 0.95));
     ng.addColorStop(0.5, hsl(sHue + 40, 90, 65, 0.5));
     ng.addColorStop(1, hsl(sHue + 80, 80, 40, 0));
     ctx.beginPath();
     ctx.arc(x0, y0, nucR, 0, Math.PI * 2);
     ctx.fillStyle = ng;
     ctx.shadowBlur = 30 + sRMS * 24;
-    ctx.shadowColor = hsl(sHue, 100, 80);
+    ctx.shadowColor = hsl(sHue + 34, 100, 80);
     ctx.fill();
     ctx.shadowBlur = 0;
 
@@ -640,7 +640,7 @@ canvas {
     // Glowing source nodes
     for (const [sx, sy] of [[s1x, s1y], [s2x, s2y]]) {
       const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, 18 + sRMS * 25);
-      sg.addColorStop(0, hsl(sHue, 100, 98, 0.95));
+      sg.addColorStop(0, hsl(sHue + 25, 100, 98, 0.95));
       sg.addColorStop(0.4, hsl(sHue + 40, 90, 65, 0.4));
       sg.addColorStop(1, 'rgba(155,210,205,0)');
       ctx.beginPath();
@@ -722,7 +722,7 @@ canvas {
 
     // ── Draw ──
     // Fade trail
-    ctx.fillStyle = `rgba(0,0,0,${0.12 + (1 - sRMS) * 0.08})`;
+    ctx.fillStyle = `rgba(210,150,160,${0.12 + (1 - sRMS) * 0.08})`;
     ctx.fillRect(0, 0, W, H);
 
     if (mode === 4) {
